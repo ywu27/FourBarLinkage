@@ -1,5 +1,15 @@
 #include "FourBarLinkage.h"
 
+FourBarLinkage::FourBarLinkage(int linkageMotorID1, int linkageMotorID2, int linkageCurrentLimit)
+    : linkageMotor1{linkageMotorID1, rev::CANSparkMax::MotorType::kBrushless},
+    linkageMotor2{linkageMotorID2, rev::CANSparkMax::MotorType::kBrushless},
+    linkageMotorCtr1{linkageMotor1.GetPIDController()},
+    linkageMotorCtr2{linkageMotor2.GetPIDController()},
+    linkageMtrEnc1{linkageMotor1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
+    linkageMtrEnc2{linkageMotor2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor)},
+    linkageMotorCurrentLimit{linkageCurrentLimit} { }
+
+
 void FourBarLinkage::init() {
     // resets motor settings to default settings
     linkageMotor1.RestoreFactoryDefaults();
@@ -59,9 +69,6 @@ void FourBarLinkage::setLinkagePosition(linkageState state) {
             linkageMotorCtr1.SetReference(0.0, rev::CANSparkBase::ControlType::kPosition);
             linkageMotorCtr2.SetReference(0.0, rev::CANSparkBase::ControlType::kPosition);
             frc::SmartDashboard::PutBoolean("Extended", false);
-        case STOP:
-            // stop motors
-            disable();
     }
 }
 

@@ -11,7 +11,8 @@ void Robot::RobotInit()
 {
   mDrive.initModules();
   mGyro.init();
-
+  intake.init();
+  linkage.init();
 }
 void Robot::RobotPeriodic()
 {
@@ -111,6 +112,21 @@ void Robot::TeleopPeriodic()
   mDrive.updateOdometry();
   frc::SmartDashboard::PutNumber("driveX", mDrive.getOdometryPose().X().value());
   frc::SmartDashboard::PutNumber("driveY", mDrive.getOdometryPose().Y().value());
+
+  if(ctr.GetL1Button()) {
+    intake.setIntakeSpeed(5.0); // Placer value
+    intake.setIntakeState(Intake::ON);
+  }
+  if(ctr.GetL1ButtonReleased()) {
+    intake.setIntakeState(Intake::STOP);
+  }
+  if(ctr.GetL2Button()) {
+    linkage.setExtendAngle(175); // put correct degrees
+    linkage.extendLinkage();
+  }
+  if(ctr.GetL2ButtonReleased()) {
+    linkage.disable();
+  }
 }
 
 void Robot::DisabledInit()

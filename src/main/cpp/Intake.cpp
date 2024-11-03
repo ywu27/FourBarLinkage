@@ -1,5 +1,14 @@
 #include "Intake.h"
 
+Intake::Intake(int topMotorID, int bottomMotorID, int currentLimit)
+    : intakeTopMotor{topMotorID, rev::CANSparkMax::MotorType::kBrushless}, 
+    intakeBottomMotor{bottomMotorID, rev::CANSparkMax::MotorType::kBrushless}, 
+    intakeTopCtr{intakeTopMotor.GetPIDController()}, 
+    intakeBottomCtr{intakeBottomMotor.GetPIDController()}, 
+    intakeTopEncoder{intakeTopMotor.GetEncoder()}, 
+    intakeBottomEncoder{intakeBottomMotor.GetEncoder()}, 
+    intakeMotorCurrentLimit{currentLimit}, intakeMotorSpeed{0.0} { }
+
 void Intake::init() {
     // Restore motor settings to default settings
     intakeTopMotor.RestoreFactoryDefaults();

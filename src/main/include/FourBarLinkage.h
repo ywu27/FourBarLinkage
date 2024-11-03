@@ -6,28 +6,25 @@
 #include <util/ShuffleUI.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-constexpr unsigned int linkageMotorID1 = 2; // Change to actual motor ID
-constexpr unsigned int linkageMotorID2 = 3; // Change to actual motor ID
-constexpr unsigned int linkageMotorCurrentLimit = 10; // Change accordingly
-
 class FourBarLinkage {
     private:
         int linkageExtendAngle = 0;
+        int linkageMotorCurrentLimit;
         // initialize linkage motors
-        rev::CANSparkMax linkageMotor1 = rev::CANSparkMax(linkageMotorID1, rev::CANSparkMax::MotorType::kBrushless);
-        rev::CANSparkMax linkageMotor2 = rev::CANSparkMax(linkageMotorID2, rev::CANSparkMax::MotorType::kBrushless);
+        rev::CANSparkMax linkageMotor1;
+        rev::CANSparkMax linkageMotor2;
         // initialize motor controllers
-        rev::SparkPIDController linkageMotorCtr1 = linkageMotor1.GetPIDController();
-        rev::SparkPIDController linkageMotorCtr2 = linkageMotor2.GetPIDController();
+        rev::SparkPIDController linkageMotorCtr1;
+        rev::SparkPIDController linkageMotorCtr2;
         // initialize motor encoders
-        rev::SparkRelativeEncoder linkageMtrEnc1 = linkageMotor1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
-        rev::SparkRelativeEncoder linkageMtrEnc2 = linkageMotor2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
+        rev::SparkRelativeEncoder linkageMtrEnc1;
+        rev::SparkRelativeEncoder linkageMtrEnc2;
     
     public:
+        FourBarLinkage(int linkageMotorID1, int linkageMotorID2, int linkageMotorCurrentLimit);
         enum linkageState { // linkage position or state
             EXTEND,
-            RETRACT,
-            STOP
+            RETRACT
         };
 
         void init();

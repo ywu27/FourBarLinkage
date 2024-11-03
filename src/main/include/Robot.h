@@ -24,6 +24,8 @@
 #include "SwerveDrive.h"
 #include "util/TimeDelayButton.h"
 #include "sensors/Limelight.h"
+#include "Intake.h"
+#include "FourBarLinkage.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -51,6 +53,8 @@ public:
   //frc::PS5Controller ctrOperator = frc::PS5Controller(1);
   NavX mGyro = NavX();
   SwerveDrive mDrive = SwerveDrive(mGyro);
+  Intake intake = Intake(14, 15, 10); // Change Motor IDs, and current limit
+  FourBarLinkage linkage = FourBarLinkage(14, 15, 10); // Change motor IDs, and current limit
   
   //Limelight aLimelight, bLImelight;             aLimelight -->  Limelight Agent 1/A,    bLimelight --> Limelight Agent 2/B
   Limelight aLimelight = Limelight("FrontLimelight", 30, 5);  //Constructor Attribute Initialisation
