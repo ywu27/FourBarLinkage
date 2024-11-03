@@ -13,18 +13,18 @@ constexpr unsigned int linkageMotorCurrentLimit = 10; // Change accordingly
 class FourBarLinkage {
     private:
         int linkageExtendAngle = 0;
-
+        // initialize linkage motors
         rev::CANSparkMax linkageMotor1 = rev::CANSparkMax(linkageMotorID1, rev::CANSparkMax::MotorType::kBrushless);
         rev::CANSparkMax linkageMotor2 = rev::CANSparkMax(linkageMotorID2, rev::CANSparkMax::MotorType::kBrushless);
-
+        // initialize motor controllers
         rev::SparkPIDController linkageMotorCtr1 = linkageMotor1.GetPIDController();
         rev::SparkPIDController linkageMotorCtr2 = linkageMotor2.GetPIDController();
-
+        // initialize motor encoders
         rev::SparkRelativeEncoder linkageMtrEnc1 = linkageMotor1.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
         rev::SparkRelativeEncoder linkageMtrEnc2 = linkageMotor2.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);
     
     public:
-        enum linkageState {
+        enum linkageState { // linkage position or state
             EXTEND,
             RETRACT,
             STOP
@@ -34,4 +34,6 @@ class FourBarLinkage {
         void disable();
         void setExtendAngle(double angle);
         void setLinkagePosition(linkageState state);
+        void extendLinkage();
+        double getEncoderPosition();
 };
