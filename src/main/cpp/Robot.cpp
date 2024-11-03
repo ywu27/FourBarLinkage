@@ -13,6 +13,7 @@ void Robot::RobotInit()
   mGyro.init();
   intake.init();
   linkage.init();
+  linkage.setExtendAngle(175); // put correct degrees
 }
 void Robot::RobotPeriodic()
 {
@@ -120,11 +121,8 @@ void Robot::TeleopPeriodic()
   if(ctr.GetL1ButtonReleased()) {
     intake.setIntakeState(Intake::STOP);
   }
-  if(ctr.GetL2Button()) {
-    linkage.setExtendAngle(175); // put correct degrees
+  if(ctr.GetL2ButtonPressed()) {
     linkage.extendLinkage();
-  }
-  if(ctr.GetL2ButtonReleased()) {
     linkage.disable();
   }
 }
